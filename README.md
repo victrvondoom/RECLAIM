@@ -43,7 +43,7 @@
 
 ## Demo Video
 
-[![Watch the RESOLVE demo](https://img.youtube.com/vi/M_n-Z1yxMUg/maxresdefault.jpg)](https://youtu.be/M_n-Z1yxMUg)
+
 
 **[▶️ Watch on YouTube](https://youtu.be/M_n-Z1yxMUg)**
 
