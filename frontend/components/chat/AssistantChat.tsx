@@ -18,6 +18,7 @@ import { AgentReasoningTrace } from "./AgentReasoningTrace";
 import { PipelineSidebar } from "./PipelineSidebar";
 import { VoiceAssistant } from "./VoiceAssistant";
 import { getVoiceEngine } from "@/lib/voice-engine";
+import { SYNTHETIC_SCENARIOS } from "@/lib/synthetic-scenarios";
 
 interface DomainAnswer {
   domain: string;
@@ -327,6 +328,7 @@ function BootSequence({ onPick }: { onPick: (prompt: string) => void }) {
   ];
   const suggestions = [
     "My flight was cancelled and my travel insurance rejected the claim.",
+    "What documents do I need to dispute a duplicate UPI charge?",
     "My builder delayed possession of my flat by 18 months under RERA.",
     "What are the symptoms of dengue fever and when should I see a doctor?",
     "My credit card was charged twice for the same transaction.",
@@ -364,6 +366,34 @@ function BootSequence({ onPick }: { onPick: (prompt: string) => void }) {
             {prompt}
           </button>
         ))}
+      </div>
+      <div className="w-full max-w-4xl">
+        <p className="mb-2 text-center font-mono text-[11px] font-bold uppercase tracking-widest text-stone-500">
+          Story scenarios &middot; pick one to see the full workflow
+        </p>
+        <div className="grid gap-3 md:grid-cols-2">
+          {SYNTHETIC_SCENARIOS.map((scenario) => (
+            <div key={scenario.domain} className="rounded-lg border-2 border-[#231f1d] bg-white p-3 text-left shadow-[3px_3px_0_#231f1d]">
+              <div className="mb-1 flex items-center justify-between gap-2">
+                <span className="text-sm font-black text-stone-900">{scenario.title}</span>
+                <span className="rounded border border-stone-300 bg-amber-100 px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase text-stone-700">
+                  {domainTheme(scenario.domain).label}
+                </span>
+              </div>
+              <ol className="mb-2 space-y-1 border-l-2 border-amber-300 pl-3 text-[11px] text-stone-600">
+                {scenario.story.map((step, i) => (
+                  <li key={step}><span className="font-mono font-bold text-amber-700">{i + 1}.</span> {step}</li>
+                ))}
+              </ol>
+              <button
+                onClick={() => onPick(scenario.prompt)}
+                className="rounded border-2 border-[#231f1d] bg-amber-300 px-2 py-1 text-[11px] font-bold text-stone-900 hover:bg-amber-200"
+              >
+                Try this scenario
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
       <style jsx>{`
         @keyframes fadeIn {
