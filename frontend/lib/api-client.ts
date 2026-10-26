@@ -1,6 +1,7 @@
 // api-client.ts — all methods backed by real FastAPI endpoints, no mock fallbacks.
 
 import { syntheticClassify, syntheticMultiDomain } from "@/lib/synthetic-scenarios";
+import { offlineUpload } from "@/lib/offline-api";
 
 export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000/api/v1";
 
@@ -414,10 +415,10 @@ export async function uploadDocument(domain: string, file: File, handlers?: Uplo
       if (xhr.status >= 200 && xhr.status < 300) {
         resolve(JSON.parse(xhr.responseText));
       } else {
-        reject(new Error(`Upload failed: ${xhr.status} ${xhr.responseText}`));
+        offlineUpload(domain, file, handlers?.onProgress).then((doc) => resolve(doc as UploadedDocument), reject);
       }
     };
-    xhr.onerror = () => reject(new Error("Upload failed: network error"));
+    xhr.onerror = () => { offlineUpload(domain, file, handlers?.onProgress).then((doc) => resolve(doc as UploadedDocument), reject); };
     const formData = new FormData();
     formData.append("file", file);
     xhr.send(formData);

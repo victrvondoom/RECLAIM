@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { listAnalyses, type AnalysisCase } from "@/lib/api-client";
 import { domainTheme } from "@/components/chat/domain-theme";
+import { useLang } from "@/lib/i18n";
 import { SceneBackground } from "@/components/3d/SceneBackground";
 
 const nav = [
@@ -35,6 +36,7 @@ function getDeviceId(): string {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { t } = useLang();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [deviceId, setDeviceId] = useState("");
 
@@ -90,7 +92,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 }`}
               >
                 <Icon className={`size-4 ${isActive ? "text-stone-900" : "text-stone-600 group-hover:text-amber-700"}`} />
-                {label}
+                {t(label)}
               </Link>
             );
           })}

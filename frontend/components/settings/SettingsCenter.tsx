@@ -11,6 +11,7 @@ import {
   getSystemHealth, type SystemHealth,
 } from "@/lib/api-client";
 import { DOMAIN_THEME, domainTheme } from "@/components/chat/domain-theme";
+import { useLang, setLang } from "@/lib/i18n";
 import { PREF_KEYS, getPref, setPref } from "@/lib/preferences";
 import { INDIAN_LANGUAGES, PRIMARY_LANGUAGES } from "@/lib/voice-engine";
 
@@ -43,6 +44,7 @@ export function SettingsCenter() {
       <VoiceEngineSection />
       <SystemDiagnostics />
       <div className="grid gap-5 lg:grid-cols-2">
+        <LanguagePreferences />
         <NotificationPreferences />
         <WorkspacePreferences />
       </div>
@@ -313,6 +315,27 @@ function DiagnosticCard({
       </div>
       {children}
     </div>
+  );
+}
+
+function LanguagePreferences() {
+  const { lang } = useLang();
+  return (
+    <section className="rounded-xl border-2 border-[#231f1d] bg-white p-5 shadow-[4px_4px_0_#231f1d]">
+      <p className="mb-3 font-mono text-[10px] font-black uppercase text-stone-700">Interface Language &middot; மொழி</p>
+      <div className="flex gap-2">
+        {([["en", "English"], ["ta", "தமிழ் (Tamil)"]] as const).map(([code, name]) => (
+          <button
+            key={code}
+            onClick={() => setLang(code)}
+            className={`rounded-lg border-2 border-[#231f1d] px-4 py-2 text-xs font-bold shadow-[2px_2px_0_#231f1d] ${lang === code ? "bg-amber-300" : "bg-white hover:bg-amber-50"}`}
+          >
+            {name}
+          </button>
+        ))}
+      </div>
+      <p className="mt-2 text-[11px] text-stone-500">Navigation and labels switch instantly and are remembered on this device.</p>
+    </section>
   );
 }
 

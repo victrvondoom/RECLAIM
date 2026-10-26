@@ -1,4 +1,5 @@
 import "./globals.css";
+import { OfflineBoot } from "@/components/OfflineBoot";
 import type { Metadata } from "next";
 import { EB_Garamond, Figtree, JetBrains_Mono } from "next/font/google";
 
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${ebGaramond.variable} ${figtree.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans antialiased text-[#1a1715]">{children}</body>
+      <body className="font-sans antialiased text-[#1a1715]"><OfflineBoot />{children}</body>
     </html>
   );
 }
