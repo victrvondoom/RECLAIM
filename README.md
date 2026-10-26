@@ -2,6 +2,8 @@
 
 **A multi-agent consumer advocacy system that turns a rejected claim into a grounded, citable, ready-to-send dispute — across eight consumer domains.**
 
+`MIT License — open source` (see [LICENSE](LICENSE))
+
 RECLAIM helps a consumer who has been denied a claim (an insurance rejection, a cancelled flight, a hidden bank charge) understand whether the denial was lawful and produce the actual documents needed to fight it. Instead of a generic chatbot answer, the system runs a full agentic workflow: it retrieves the exact regulatory clauses that apply, extracts the facts from the consumer's own documents, drafts the appeal or complaint, audits its own draft for hallucinated citations, and only then delivers the result.
 
 The system currently operates in two modes:
