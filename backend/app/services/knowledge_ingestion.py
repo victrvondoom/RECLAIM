@@ -1,12 +1,13 @@
-﻿from pathlib import Path
+from pathlib import Path
 from uuid import NAMESPACE_URL, uuid5
 import json
 
 from app.database.postgres.repositories import case_repository
 from app.knowledge_graph.neo4j.service import knowledge_graph
 from app.models.domain import Domain
-from app.rag.chunking.text import chunk_text
+from app.rag.regulation_splitter import RecursiveRegulationTextSplitter
 from app.rag.indexing.service import indexing_service
+
 
 SUPPORTED_EXTENSIONS = {".txt", ".md", ".csv", ".json", ".pdf"}
 SKIP_NAMES = {"source_registry.json", "insurer_registry.json", "download_report.json", "curation_report.json"}
@@ -114,15 +115,22 @@ class KnowledgeIngestionService:
             await case_repository.upsert_knowledge_source(source)
             supabase_sources += 1
 
-            chunks = chunk_text(text)
+            splitter = RecursiveRegulationTextSplitter(max_chunk_size=400, overlap=40)
+            chunk_outputs = splitter.split_text(text, document_id=document_id)
             chunk_records = [
                 {
-                    "chunk_id": str(uuid5(NAMESPACE_URL, f"{document_id}:{index}")),
-                    "chunk_index": index,
-                    "text": chunk,
-                    "metadata": metadata,
+                    "chunk_id": c.chunk_id,
+                    "chunk_index": c.sequence_number,
+                    "text": c.text,
+                    "metadata": {
+                        **metadata,
+                        "start_offset": c.start_offset,
+                        "end_offset": c.end_offset,
+                        "citations": c.citations,
+                        "language": c.language,
+                    },
                 }
-                for index, chunk in enumerate(chunks)
+                for c in chunk_outputs
             ]
             supabase_chunks += await case_repository.add_knowledge_chunks(document_id, chunk_records)
             chunk_count = await indexing_service.index_document_text(domain, document_id, text, metadata)

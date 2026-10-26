@@ -21,37 +21,92 @@ export default function Hero() {
       }}
     >
       <div style={{ maxWidth: "760px", margin: "0 auto", textAlign: "center", position: "relative", zIndex: 2 }}>
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 0.9, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          style={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem", letterSpacing: "0.14em", color: "#b45309", marginBottom: "1.25rem", fontWeight: 800 }}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            padding: "0.35rem 0.95rem",
+            borderRadius: "999px",
+            background: "#fef3c7",
+            border: "2px solid #231f1d",
+            boxShadow: "2px 2px 0px #231f1d",
+            marginBottom: "1.25rem",
+          }}
         >
-          AGENTIC AI RESOLVE &middot; WISPR &amp; SOLVE
-        </motion.p>
+          <span style={{ fontSize: "0.85rem" }}>🏆</span>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", letterSpacing: "0.08em", color: "#92400e", fontWeight: 800 }}>
+            BUILT WITH AI BASICS HACKATHON
+          </span>
+          <span style={{ color: "#231f1d", opacity: 0.4 }}>&middot;</span>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "#b45309", fontWeight: 700 }}>
+            RECLAIM OPERATING SYSTEM
+          </span>
+        </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(2.6rem, 6vw, 4.4rem)",
+            fontSize: "clamp(2.6rem, 6vw, 4.2rem)",
             lineHeight: 1.08,
             fontWeight: 400,
             color: "var(--bone)",
-            marginBottom: "1.25rem",
+            marginBottom: "1rem",
           }}
         >
-          Whisper and solve using Wispr Flow.
+          From problem to proof to resolution.
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 0.85, y: 0 }}
           transition={{ duration: 0.5, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-          style={{ fontSize: "1.05rem", lineHeight: 1.65, color: "var(--bone)", marginBottom: "2.25rem" }}
+          style={{ fontSize: "1.05rem", lineHeight: 1.65, color: "var(--bone)", marginBottom: "1.75rem" }}
         >
-          Speak or whisper your dispute in any tone or language. Wispr Flow automatically removes fillers, extracts facts, and structures legal telemetry—routing directly to autonomous multi-agent councils across 8 regulated domains.
+          Speak or enter your dispute in any tone or language. RECLAIM grounds every grievance in verified statutory regulations, optimizes dispute pathways, and coordinates action execution through the Switch-independent Action Fabric with explicit human approval.
         </motion.p>
+
+        {/* Public Product Announcement */}
+        <motion.div
+          id="announcement"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          style={{
+            maxWidth: "720px",
+            margin: "0 auto 2.25rem",
+            padding: "1.25rem 1.5rem",
+            borderRadius: "8px",
+            background: "#ffffff",
+            border: "2px solid #231f1d",
+            boxShadow: "4px 4px 0px #231f1d",
+            textAlign: "left",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", fontWeight: 800, color: "#92400e", letterSpacing: "0.06em" }}>
+              📢 INTRODUCING RECLAIM
+            </span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", padding: "0.1rem 0.4rem", borderRadius: "3px", background: "#fef3c7", border: "1px solid #231f1d", fontWeight: 700 }}>
+              Universal Action OS
+            </span>
+          </div>
+          <p style={{ fontSize: "0.95rem", lineHeight: 1.55, color: "#1c1917", fontWeight: 600, marginBottom: "0.6rem" }}>
+            &ldquo;Your rights shouldn&rsquo;t depend on knowing the right words. RECLAIM helps you understand the evidence, explore your options, and take the next step&mdash;through one connected workflow.&rdquo;
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", fontSize: "0.72rem", fontFamily: "var(--font-mono)", color: "#575147" }}>
+            <span>
+              <strong style={{ color: "#15803d" }}>✓ Active Now:</strong> Flight Cancellation Slice &middot; Recursive Regulation Splitter &middot; Human Approval Gate
+            </span>
+            <span>
+              <strong style={{ color: "#b45309" }}>⚡ Upcoming:</strong> Multi-domain Banking &middot; Cross-Citizen Institution Radar
+            </span>
+          </div>
+        </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}

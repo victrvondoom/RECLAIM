@@ -26,8 +26,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RESOLVE · Whisper and solve using Wispr Flow",
-  description: "Whisper and solve using Wispr Flow - Voice-first multi-agent AI consumer justice and claim intelligence platform",
+  title: "RECLAIM · From problem to proof to resolution",
+  description: "RECLAIM — Universal Evidence & Action Operating System. Transform consumer disputes into verified statutory claims with Action Fabric and Human Approval Gate.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

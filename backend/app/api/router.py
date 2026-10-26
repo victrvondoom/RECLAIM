@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.routes import agents, appeals, auth, case_ai, case_workflow_aliases, cases, domains, graph, intelligence, knowledge, reports, search, timeline, upload, ws, banking, airlines, telecom, ecommerce, government, housing, healthcare, voice
+from app.api.routes import agents, appeals, auth, case_ai, case_workflow_aliases, cases, domains, graph, intelligence, knowledge, reports, search, timeline, upload, ws, banking, airlines, telecom, ecommerce, government, housing, healthcare, voice, split, connectors, decision
 
 api_router = APIRouter()
 api_router.include_router(voice.router, prefix="/voice", tags=["multilingual voice"])
@@ -25,4 +25,8 @@ api_router.include_router(appeals.router, prefix="/appeals", tags=["appeals"])
 api_router.include_router(reports.router, prefix="/reports", tags=["reports"])
 api_router.include_router(timeline.router, prefix="/timeline", tags=["timeline"])
 api_router.include_router(ws.router, prefix="/ws", tags=["websockets"])
+api_router.include_router(split.router, prefix="/split", tags=["regulation text splitter"])
+api_router.include_router(connectors.router, prefix="/connectors", tags=["reclaim action fabric"])
+api_router.include_router(decision.router, prefix="/decision", tags=["decision engine"])
+
 

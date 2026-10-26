@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  Bell, Bot, ClipboardList, Command, FileSearch, FileText, Gauge, Home, Network, Search, Settings, Upload, Workflow, X, ChevronRight, ScrollText, Loader2, ArrowUpRight, Building2,
+  Bell, Bot, ClipboardList, Command, FileSearch, FileText, Gauge, Home, Network, Search, Settings, Upload, Workflow, X, ChevronRight, ScrollText, Loader2, ArrowUpRight, Building2, ShieldCheck, SlidersHorizontal, Scale,
 } from "lucide-react";
 import { listAnalyses, type AnalysisCase } from "@/lib/api-client";
 import { domainTheme } from "@/components/chat/domain-theme";
@@ -12,7 +12,10 @@ import { SceneBackground } from "@/components/3d/SceneBackground";
 
 const nav = [
   ["Dashboard", "/dashboard", Home],
-  ["New Analysis", "/dashboard/new", Upload],
+  ["Action Fabric", "/dashboard/connectors", ShieldCheck],
+  ["Text Splitter", "/dashboard/text-splitter", SlidersHorizontal],
+  ["Decision Engine", "/dashboard/decision-optimizer", Scale],
+  ["New Claim", "/dashboard/new", Upload],
   ["My Analyses", "/dashboard/analyses", FileSearch],
   ["AI Assistant", "/dashboard/assistant", Bot],
   ["Knowledge Graph", "/dashboard/knowledge-graph", Network],
@@ -62,11 +65,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <p className="font-serif text-2xl font-bold tracking-tight text-[#1c1917]">RESOLVE</p>
-              <span className="rounded border border-[#231f1d] bg-[#1c1917] px-1 py-0.5 text-[9px] font-black uppercase text-amber-200">3D</span>
+              <p className="font-serif text-2xl font-black tracking-tight text-[#1c1917]">RECLAIM</p>
+              <span className="rounded border border-[#231f1d] bg-[#1c1917] px-1 py-0.5 text-[9px] font-black uppercase text-amber-200">OS</span>
             </div>
-            <p className="font-mono text-[11px] font-bold text-amber-800">Wispr &amp; solve &middot; Wispr Flow</p>
-            <p className="font-serif italic text-[11px] text-stone-600">Voice-First Claim Intelligence</p>
+            <p className="font-mono text-[10px] font-bold text-amber-800">From problem to proof to resolution</p>
+            <p className="font-serif italic text-[11px] text-stone-600">Universal Action Fabric</p>
+            <div className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-[#231f1d] bg-[#fef3c7] px-2 py-0.5 text-[9px] font-mono font-extrabold text-[#92400e] shadow-[1.5px_1.5px_0_#231f1d]">
+              <span>🏆</span> Built with AI Basics Hackathon
+            </div>
           </div>
         </div>
 
@@ -124,7 +130,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
-      <section id="main" className="lg:pl-72 p-4 sm:p-6 lg:p-8">{children}</section>
+      <section id="main" className="lg:pl-72 p-4 sm:p-6 lg:p-8">
+        {/* Hackathon banner at top of main view */}
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border-2 border-[#231f1d] bg-[#fffbeb] px-4 py-2.5 shadow-[3px_3px_0_#231f1d]">
+          <div className="flex items-center gap-2.5">
+            <span className="rounded border border-[#231f1d] bg-amber-400 px-2 py-0.5 font-mono text-[10px] font-black uppercase text-[#1c1917] shadow-[1.5px_1.5px_0_#231f1d]">
+              🏆 RECLAIM ACTION OS
+            </span>
+            <span className="text-xs font-bold text-stone-900">
+              RECLAIM &mdash; From problem to proof to resolution &middot; Built with AI Basics Hackathon
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="rounded border border-[#231f1d] bg-white px-2 py-0.5 font-mono text-[10px] font-bold text-amber-900 shadow-[1px_1px_0_#231f1d]">
+              Action Fabric &times; Human Approval Gate
+            </span>
+          </div>
+        </div>
+        {children}
+      </section>
 
       {/* Floating Pixel 3D Ctrl K button */}
       <button
