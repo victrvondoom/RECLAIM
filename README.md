@@ -13,6 +13,8 @@ The system currently operates in two modes:
 
 ## Table of Contents
 
+- Try It Out
+- Built With
 - Why RECLAIM Exists
 - System Architecture
 - The Agentic Workflow
@@ -23,6 +25,18 @@ The system currently operates in two modes:
 - Running Locally
 - Environment Variables
 - Project Structure
+
+---
+
+## Try It Out
+
+- 🚀 **Live App** — https://reclaim-app-umber.vercel.app/
+- 🎥 **Video Demo** — https://youtu.be/bAmwMS18TwY?si=KrbhgMbv9m6I0ZaL
+- 💻 **Source Code** — https://github.com/victrvondoom/RECLAIM.git
+
+## Built With
+
+Next.js · React · TypeScript · Tailwind CSS · Python · FastAPI · LangGraph · Pydantic · NVIDIA NIM · Qdrant · Neo4j · Redis · Generative AI · AI Agents · Natural Language Processing · RAG · OCR · PDF Processing · React Three Fiber · Zustand · TanStack
 
 ---
 
