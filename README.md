@@ -9,6 +9,8 @@
 [![Built With AI Basics Hackathon](https://img.shields.io/badge/Built%20With-AI%20Basics%20Hackathon-f59e0b?style=for-the-badge&logo=target&logoColor=black)](https://github.com/victrvondoom/RECLAIM)
 [![Backend CI](https://github.com/victrvondoom/RECLAIM/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/victrvondoom/RECLAIM/actions/workflows/backend-ci.yml)
 [![Frontend CI](https://github.com/victrvondoom/RECLAIM/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/victrvondoom/RECLAIM/actions/workflows/frontend-ci.yml)
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/victrvondoom/RECLAIM)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
 ![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=next.js&logoColor=white)
