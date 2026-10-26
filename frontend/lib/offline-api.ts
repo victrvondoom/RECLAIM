@@ -15,45 +15,119 @@ interface Db {
   lastTick: number;
 }
 
-const KEY = "reclaim:offline-db-v1";
+const KEY = "reclaim:offline-db-v2";
 const uid = () => Math.random().toString(36).slice(2, 10);
 const iso = (msAgo = 0) => new Date(Date.now() - msAgo).toISOString();
 const DAY = 86400000;
 
-const STATUSES = ["resolved", "ready_for_approval", "submitted", "review_required", "analyzing", "intake", "resolved", "analyzing"];
+// Case volume per domain: deliberately uneven, like a real complaint mix.
+const VOLUME: Record<string, number> = {
+  banking: 160, telecom: 125, ecommerce: 110, airlines: 100, health_insurance: 72, housing: 38, government: 11, healthcare: 2,
+};
+
+const VARIANTS: Record<string, { institutions: string[]; issues: Array<[string, string]> }> = {
+  banking: {
+    institutions: ["Metro National Bank", "Union Crest Bank", "Bharat Savings Bank", "Coastal Trust Bank", "Apex Finserve", "Sundaram Co-operative Bank"],
+    issues: [["Duplicate UPI debit not reversed", "A UPI payment of Rs {a} was debited twice and the bank has not reversed the second debit."], ["Unauthorised card transaction", "A card transaction of Rs {a} that I never made appeared on my statement and the bank rejected my dispute."], ["Loan prepayment charge dispute", "The bank charged a prepayment penalty of Rs {a} on a floating-rate loan."], ["ATM cash not dispensed", "The ATM debited Rs {a} but dispensed no cash; the refund is overdue."], ["Chargeback refused", "The bank refused a chargeback of Rs {a} for a service that was never delivered."], ["Minimum balance penalty", "Penalty of Rs {a} was levied on a zero-balance account."]],
+  },
+  telecom: {
+    institutions: ["Connectel Mobile", "Nexa Broadband", "BlueWave Telecom", "Zenith Fibre", "Orbit Wireless"],
+    issues: [["Billed after plan cancellation", "I am still being billed Rs {a} a month for a plan I cancelled."], ["Number porting delayed", "My mobile number port request has been pending for over two weeks."], ["Broadband outage, no rebate", "My broadband has been down for 9 days and no rental rebate was given."], ["Roaming charges mis-billed", "I was charged Rs {a} for international roaming I had not activated."], ["Value-added service auto-activated", "A paid caller-tune service of Rs {a} was activated without my consent."]],
+  },
+  ecommerce: {
+    institutions: ["ShopKart Marketplace", "Urbancart", "TrendBazaar", "QuickMart Online", "HomeNest Store", "GadgetGrid"],
+    issues: [["Counterfeit product delivered", "The branded item I ordered for Rs {a} is counterfeit and the seller refuses a return."], ["Refund stuck after return pickup", "My return was picked up but the refund of Rs {a} has not been credited."], ["Defective appliance, warranty denied", "The appliance stopped working within 3 months and warranty service was denied."], ["Wrong item delivered", "I received the wrong product and the platform keeps closing my ticket."], ["Order cancelled after payment", "My order of Rs {a} was cancelled by the seller after payment."], ["Delivery marked complete, not received", "The parcel is marked delivered but I never received it."]],
+  },
+  airlines: {
+    institutions: ["SkyJet Airways", "IndoAir", "Horizon Airlines", "AeroLink", "Falcon Air"],
+    issues: [["Cancelled flight, refund stalled", "My flight was cancelled and the airline offered only a voucher instead of the Rs {a} refund."], ["Baggage lost in transit", "My checked baggage was lost and the compensation offered is far below the limit."], ["Denied boarding despite confirmed ticket", "I was denied boarding despite a confirmed ticket and received no compensation."], ["Long delay, no meals provided", "A 5-hour delay occurred and no meals or refreshments were provided."], ["Refund of taxes not processed", "Airport taxes of Rs {a} on an unused ticket have not been refunded."]],
+  },
+  health_insurance: {
+    institutions: ["Star Shield Health Insurance", "CarePlus Insurance", "LifeGuard Health", "Vitalis Insurance"],
+    issues: [["Claim denied as pre-existing", "My claim of Rs {a} was denied as a pre-existing condition after 5 years of continuous cover."], ["Cashless pre-authorisation refused", "Cashless approval was refused at the hospital and I had to pay Rs {a} upfront."], ["Partial settlement with deductions", "The insurer deducted Rs {a} as 'non-payable items' without a breakdown."], ["Renewal premium hike", "My renewal premium rose sharply after a single claim."], ["Claim delayed beyond 30 days", "My reimbursement claim has been pending for 45 days."]],
+  },
+  housing: {
+    institutions: ["Horizon Realty Developers", "GreenArc Builders", "Landmark Estates", "Skyline Infra"],
+    issues: [["Possession delayed beyond RERA date", "Possession of my flat is delayed by {m} months and no interest is offered."], ["Security deposit not returned", "My landlord has withheld a deposit of Rs {a} after move-out."], ["Carpet area shortfall", "The delivered carpet area is lower than the agreement for sale."], ["Maintenance overcharge", "The society is charging maintenance above the agreed rate."]],
+  },
+  government: {
+    institutions: ["Regional Passport Office", "District Revenue Office", "State Transport Department"],
+    issues: [["Passport renewal pending 90 days", "My passport renewal has been under review for 90 days."], ["Certificate application stuck", "My income certificate application has been pending beyond the citizen charter timeline."], ["Pension credit delayed", "My pension has not been credited for two months."]],
+  },
+  healthcare: {
+    institutions: ["CityCare Multispeciality Hospital", "Sunrise Diagnostics"],
+    issues: [["Overcharged hospital bill", "The hospital bill exceeded the estimate by Rs {a} with no itemisation."], ["Discharge summary withheld", "The hospital is withholding my discharge summary until an unexplained balance is paid."]],
+  },
+};
+
+function rng(seedNum: number) {
+  let t = seedNum;
+  return () => {
+    t += 0x6d2b79f5;
+    let x = Math.imul(t ^ (t >>> 15), 1 | t);
+    x ^= x + Math.imul(x ^ (x >>> 7), 61 | x);
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function pickStatus(rand: () => number, ageDays: number): string {
+  const r = rand();
+  if (ageDays < 4) return r < 0.4 ? "intake" : r < 0.75 ? "analyzing" : "review_required";
+  if (ageDays < 20) return r < 0.2 ? "review_required" : r < 0.45 ? "ready_for_approval" : r < 0.8 ? "submitted" : "resolved";
+  return r < 0.52 ? "resolved" : r < 0.72 ? "submitted" : r < 0.82 ? "closed" : r < 0.9 ? "ready_for_approval" : "review_required";
+}
 
 function seed(): Db {
   const db: Db = { cases: [], documents: [], appeals: [], events: [], lastTick: Date.now() };
-  SYNTHETIC_SCENARIOS.forEach((s, i) => {
-    const caseId = `case-${s.domain}`;
-    const created = (i + 1) * DAY * 1.3;
-    db.cases.push({
-      id: caseId, user_id: "device", domain: s.domain, title: s.title, institution_name: s.institution, summary: s.prompt,
-      jurisdiction: "IN", status: STATUSES[i % STATUSES.length], created_at: iso(created), updated_at: iso(created / 3),
-      avg_confidence: Number((s.probability - 0.04).toFixed(2)), run_count: 2 + (i % 3), completed_runs: 2 + (i % 3),
-      domains_involved: i % 3 === 0 ? [s.domain, SYNTHETIC_SCENARIOS[(i + 1) % 8].domain] : [s.domain],
-    });
-    s.missingDocs.slice(0, 2).forEach((name, j) => {
-      const docId = `doc-${s.domain}-${j}`;
-      db.documents.push({
-        id: docId, document_id: docId, case_id: caseId, filename: `${name.toLowerCase().replace(/[^a-z0-9]+/g, "_")}.pdf`,
-        mime_type: "application/pdf", size_bytes: 84000 + i * 9100 + j * 31000,
-        text_extract: `${name} — ${s.institution}. ${s.clauses[j % s.clauses.length]}. Reference ${s.regulations[0]}.`,
-        document_type: j === 0 ? "evidence" : "correspondence", domain: s.domain, indexed: true, chunks_indexed: 6 + i + j * 3,
-        created_at: iso(created - j * 3600000),
+  const rand = rng(20260);
+  let n = 0;
+  Object.entries(VOLUME).forEach(([domain, count]) => {
+    const s = scenarioFor(domain)!;
+    const v = VARIANTS[domain];
+    for (let k = 0; k < count; k++) {
+      n++;
+      // Recent cases are likelier than old ones (rand^1.6 skews towards "now").
+      const ageDays = Math.floor(Math.pow(rand(), 1.6) * 180);
+      const created = ageDays * DAY + Math.floor(rand() * DAY);
+      const [title, tpl] = v.issues[Math.floor(rand() * v.issues.length)];
+      const amount = (Math.round((1500 + rand() * 48000) / 50) * 50).toLocaleString("en-IN");
+      const institution = v.institutions[Math.floor(Math.pow(rand(), 1.8) * v.institutions.length)];
+      const status = pickStatus(rand, ageDays);
+      const conf = Number((0.55 + rand() * 0.4).toFixed(2));
+      const id = `case-${domain}-${String(k + 1).padStart(3, "0")}`;
+      const summary = tpl.replace("{a}", amount).replace("{m}", String(6 + Math.floor(rand() * 20)));
+      const multi = rand() < 0.14;
+      db.cases.push({
+        id, user_id: "device", domain, title, institution_name: institution, summary, jurisdiction: "IN", status,
+        created_at: iso(created), updated_at: iso(Math.max(0, created - rand() * 9 * DAY)), avg_confidence: status === "intake" ? null : conf,
+        run_count: status === "intake" ? 0 : 1 + Math.floor(rand() * 3), completed_runs: status === "intake" ? 0 : 1 + Math.floor(rand() * 2),
+        domains_involved: multi ? [domain, SYNTHETIC_SCENARIOS[Math.floor(rand() * 8)].domain] : [domain],
       });
-    });
-    db.appeals.push({
-      id: `appeal-${s.domain}`, case_id: caseId, user_id: "device", version: 1, title: s.letterSubject,
-      content: `To the Grievance Officer, ${s.institution}\n\nSubject: ${s.letterSubject}\n\n${s.story[2]} I therefore request resolution within the statutory timeline.\n\nEvidence attached: ${s.missingDocs.join("; ")}.\nReferences: ${s.regulations.join("; ")}.`,
-      status: (["sent", "draft", "escalated", "resolved"] as const)[i % 4], document_type: "appeal_letter", domain: s.domain,
-      created_at: iso(created / 2),
-    });
-    db.events.push(
-      { id: uid(), case_id: caseId, event_type: "case_created", title: `Case opened: ${s.title}`, body: s.prompt, actor: "user", created_at: iso(created) },
-      { id: uid(), case_id: caseId, event_type: "analysis_completed", title: `Multi-agent analysis completed (${Math.round(s.probability * 100)}% success estimate)`, body: s.strategy[0], actor: "agent", created_at: iso(created * 0.7) },
-      { id: uid(), case_id: caseId, event_type: "appeal_generated", title: `Appeal drafted: ${s.letterSubject}`, body: null, actor: "agent", created_at: iso(created / 2) },
-    );
+      db.events.push({ id: `e${n}a`, case_id: id, event_type: "case_created", title: `Case opened: ${title}`, body: summary, actor: "user", created_at: iso(created) });
+      if (status !== "intake") {
+        db.events.push({ id: `e${n}b`, case_id: id, event_type: "analysis_completed", title: `Multi-agent analysis completed (${Math.round(conf * 100)}% success estimate)`, body: s.strategy[Math.floor(rand() * s.strategy.length)], actor: "agent", created_at: iso(created - 40 * 60000) });
+      }
+      const docCount = Math.floor(rand() * 3);
+      for (let j = 0; j < docCount; j++) {
+        const name = s.missingDocs[(k + j) % s.missingDocs.length];
+        const docId = `doc-${id}-${j}`;
+        db.documents.push({
+          id: docId, document_id: docId, case_id: id, filename: `${name.toLowerCase().replace(/[^a-z0-9]+/g, "_")}_${String(k + 1).padStart(3, "0")}.pdf`,
+          mime_type: "application/pdf", size_bytes: Math.floor(40000 + rand() * 900000),
+          text_extract: `${name} — ${institution}. ${s.clauses[j % s.clauses.length]}.`, document_type: j === 0 ? "evidence" : "correspondence", domain,
+          indexed: rand() > 0.05, chunks_indexed: 3 + Math.floor(rand() * 22), created_at: iso(Math.max(0, created - (j + 1) * 3600000)),
+        });
+      }
+      if (status !== "intake" && status !== "analyzing" && rand() < 0.78) {
+        const astatus = status === "resolved" ? (rand() < 0.7 ? "resolved" : "sent") : status === "submitted" ? (rand() < 0.6 ? "sent" : "escalated") : rand() < 0.8 ? "draft" : "sent";
+        db.appeals.push({
+          id: `appeal-${id}`, case_id: id, user_id: "device", version: 1 + Math.floor(rand() * 3), title: s.letterSubject, domain, document_type: "appeal_letter", status: astatus,
+          content: `To the Grievance Officer, ${institution}\n\nSubject: ${s.letterSubject}\n\n${summary} ${s.story[2]}\n\nEvidence attached: ${s.missingDocs.slice(0, 2).join("; ")}.\nReferences: ${s.regulations.join("; ")}.`,
+          created_at: iso(Math.max(0, created - 2 * 3600000)),
+        });
+        db.events.push({ id: `e${n}c`, case_id: id, event_type: "appeal_generated", title: `Appeal drafted: ${s.letterSubject}`, body: null, actor: "agent", created_at: iso(Math.max(0, created - 2 * 3600000)) });
+      }
+    }
   });
   return db;
 }
@@ -88,7 +162,7 @@ function tick(db: Db) {
     const [type, title, body] = LIVE_EVENTS[Math.floor(Math.random() * LIVE_EVENTS.length)];
     db.events.push({ id: uid(), case_id: c.id, event_type: type, title: `${title}: ${c.title}`, body, actor: "agent", created_at: iso(i * 1000) });
   }
-  db.events = db.events.slice(-250);
+  db.events = db.events.slice(-3000);
   db.lastTick = now;
 }
 
@@ -268,10 +342,18 @@ function route(method: string, path: string, body: Json, db: Db): { status: numb
     } };
   }
   if (p === "/graph/institution-radar") {
-    const rows = SYNTHETIC_SCENARIOS.map((s, i) => {
-      const total = db.cases.filter((c) => c.institution_name === s.institution).length * 14 + 9 + i * 3;
-      return { institution_name: s.institution, total_cases: total, by_domain: [{ domain: s.domain, case_count: total }] };
-    }).sort((a, b) => b.total_cases - a.total_cases);
+    const byInst = new Map<string, Map<string, number>>();
+    db.cases.forEach((c) => {
+      const inst = c.institution_name ?? "Unknown";
+      const dm = byInst.get(inst) ?? new Map<string, number>();
+      dm.set(c.domain, (dm.get(c.domain) ?? 0) + 1);
+      byInst.set(inst, dm);
+    });
+    const rows = [...byInst.entries()].map(([name, dm]) => ({
+      institution_name: name,
+      total_cases: [...dm.values()].reduce((a, b) => a + b, 0),
+      by_domain: [...dm.entries()].map(([domain, case_count]) => ({ domain, case_count })),
+    })).sort((a, b) => b.total_cases - a.total_cases);
     return { status: 200, data: rows.slice(0, Number(q.get("limit") ?? 25)) };
   }
   if (p === "/graph/patterns") {
