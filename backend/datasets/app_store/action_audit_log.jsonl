@@ -16,3 +16,9 @@
 {"event": "APPROVAL_TOKEN_CONSUMED", "token": "e5a4ea835b20...", "consumed_at": "2026-10-26T15:23:56.938039+00:00"}
 {"event": "HUMAN_APPROVAL_GRANTED", "token": "c302825f00b8...", "prepared_action_id": "prep-email-send-182c68433f", "case_id": "case-e2e-flight-01", "action_id": "send_complaint_email", "user_id": "e2e-user", "timestamp": "2026-10-26T15:23:56.947066+00:00"}
 {"event": "APPROVAL_TOKEN_CONSUMED", "token": "c302825f00b8...", "consumed_at": "2026-10-26T15:23:56.953712+00:00"}
+{"event": "HUMAN_APPROVAL_GRANTED", "token": "4b5875a2820c...", "prepared_action_id": "prep-air-d722291a8d", "case_id": "case-test-93f1fcd9", "action_id": "submit_airline_claim", "user_id": "user-93f1fcd9", "timestamp": "2026-10-26T15:51:20.983221+00:00"}
+{"event": "APPROVAL_TOKEN_CONSUMED", "token": "4b5875a2820c...", "consumed_at": "2026-10-26T15:51:20.987222+00:00"}
+{"event": "HUMAN_APPROVAL_GRANTED", "token": "312391630dda...", "prepared_action_id": "prep-email-send-865969ff86", "case_id": "case-dispute-eml-99", "action_id": "send_complaint_email", "user_id": "user-irda-claimant", "timestamp": "2026-10-26T15:51:21.009319+00:00"}
+{"event": "HUMAN_APPROVAL_GRANTED", "token": "c81920f66627...", "prepared_action_id": "prep-air-206e41c694", "case_id": "case-test-24ef8b5b", "action_id": "submit_airline_claim", "user_id": "user-24ef8b5b", "timestamp": "2026-10-26T16:43:49.412659+00:00"}
+{"event": "APPROVAL_TOKEN_CONSUMED", "token": "c81920f66627...", "consumed_at": "2026-10-26T16:43:49.418660+00:00"}
+{"event": "HUMAN_APPROVAL_GRANTED", "token": "ad809d9a3694...", "prepared_action_id": "prep-email-send-c2f7ed16c7", "case_id": "case-dispute-eml-99", "action_id": "send_complaint_email", "user_id": "user-irda-claimant", "timestamp": "2026-10-26T16:43:49.440237+00:00"}

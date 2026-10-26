@@ -56,7 +56,7 @@ const SAMPLE_PROMPTS: SamplePrompt[] = [
 ];
 
 export default function LiveDemo() {
-  const [activeTab, setActiveTab] = useState<"wispr" | "telemetry">("wispr");
+  const [activeTab, setActiveTab] = useState<"voice" | "telemetry">("voice");
 
   // Telemetry state
   const [health, setHealth] = useState<SystemHealth | null>(null);
@@ -65,7 +65,7 @@ export default function LiveDemo() {
   const [error, setError] = useState<string | null>(null);
   const [runs, setRuns] = useState(0);
 
-  // Wispr Flow interactive state
+  // Voice Flow interactive state
   const [selectedSample, setSelectedSample] = useState<SamplePrompt>(SAMPLE_PROMPTS[0]);
   const [customText, setCustomText] = useState(SAMPLE_PROMPTS[0].rawSpeech);
   const [cleanedOutput, setCleanedOutput] = useState("");
@@ -90,7 +90,7 @@ export default function LiveDemo() {
     runHealth();
   }, []);
 
-  // Process text through Wispr Flow cleanup and live classification
+  // Process text through Voice Flow cleanup and live classification
   const processInput = (text: string) => {
     const cleaned = cleanTranscript(text);
     setCleanedOutput(cleaned);
@@ -155,7 +155,7 @@ export default function LiveDemo() {
             color: "var(--bone)",
           }}
         >
-          Whisper and solve live using Wispr Flow.
+          Whisper and solve live using Voice Flow.
         </h2>
         <p style={{ textAlign: "center", opacity: 0.75, maxWidth: "620px", margin: "0 auto 2rem", fontSize: "0.95rem", lineHeight: 1.6 }}>
           Experience real-time voice speech cleanup, statutory entity grounding, and instant agent classification on the running RESOLVE engine.
@@ -164,14 +164,14 @@ export default function LiveDemo() {
         {/* Tab switcher */}
         <div style={{ display: "flex", justifyContent: "center", gap: "0.75rem", marginBottom: "1.75rem" }}>
           <button
-            onClick={() => setActiveTab("wispr")}
+            onClick={() => setActiveTab("voice")}
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: "0.8rem",
               padding: "0.55rem 1.2rem",
               borderRadius: "6px",
               border: "2px solid #231f1d",
-              background: activeTab === "wispr" ? "#f59e0b" : "#ffffff",
+              background: activeTab === "voice" ? "#f59e0b" : "#ffffff",
               color: "#1a1715",
               boxShadow: "2px 2px 0px #231f1d",
               fontWeight: 800,
@@ -182,7 +182,7 @@ export default function LiveDemo() {
               transition: "all 0.1s ease",
             }}
           >
-            <Sparkles size={14} /> Wispr Flow Live Studio
+            <Sparkles size={14} /> Voice Flow Live Studio
           </button>
           <button
             onClick={() => setActiveTab("telemetry")}
@@ -220,7 +220,7 @@ export default function LiveDemo() {
             padding: "1.75rem",
           }}
         >
-          {activeTab === "wispr" ? (
+          {activeTab === "voice" ? (
             <div>
               {/* Preset Dispute Scenarios */}
               <div style={{ marginBottom: "1.25rem" }}>
@@ -307,7 +307,7 @@ export default function LiveDemo() {
 
               {/* Dynamic Pipeline Output Grid */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1rem", marginBottom: "1.25rem" }}>
-                {/* Cleaned Wispr Flow Box */}
+                {/* Cleaned Voice Flow Box */}
                 <div
                   style={{
                     padding: "1rem",
@@ -320,7 +320,7 @@ export default function LiveDemo() {
                   <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", marginBottom: "0.35rem" }}>
                     <ShieldCheck size={14} style={{ color: "#15803d" }} />
                     <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", fontWeight: 800, color: "#15803d", textTransform: "uppercase" }}>
-                      Wispr Flow Cleaned &amp; Grounded
+                      Voice Flow Cleaned &amp; Grounded
                     </span>
                   </div>
                   <p style={{ margin: 0, fontSize: "0.85rem", lineHeight: 1.55, color: "#1a1715", fontStyle: "italic" }}>

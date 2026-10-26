@@ -23,7 +23,7 @@ export const DOMAINS = [
 ] as const;
 
 export const LIFECYCLE_STEPS = [
-  { n: "01", title: "Whisper (Wispr Flow)", body: "Whisper or speak your dispute naturally; Wispr Flow cleanses filler words, normalizes statutory terms, and streams clean claim telemetry." },
+  { n: "01", title: "Whisper (Voice Flow)", body: "Whisper or speak your dispute naturally; Voice Flow cleanses filler words, normalizes statutory terms, and streams clean claim telemetry." },
   { n: "02", title: "Authenticate & Gate", body: "Every transcript and document carries a verified caller identity before it touches a domain agent." },
   { n: "03", title: "Route Specialists", body: "Domain classification picks the exact regulatory specialist -- or cross-domain council -- your query needs." },
   { n: "04", title: "Retrieve Precedent", body: "Vector + graph lookups pull authoritative statutes, ombudsman rulings, and case law." },

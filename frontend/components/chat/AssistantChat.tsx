@@ -67,7 +67,7 @@ function saveHistory(messages: ChatMessage[]) {
 
 // Old useSpeechRecognition hook removed — replaced by
 // MultilingualVoiceEngine (lib/voice-engine.ts) which supports
-// 22+ Indian languages via Sarvam Saaras / Bolna / Wispr Flow architecture.
+// 22+ Indian languages via Sarvam Saaras / Bolna / Voice Flow architecture.
 
 export function AssistantChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);

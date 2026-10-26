@@ -19,7 +19,7 @@ export default function Footer() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.25rem" }}>
             <span style={{ letterSpacing: "0.08em", fontWeight: 900, fontSize: "0.95rem" }}>RECLAIM</span>
-            <span style={{ fontSize: "0.65rem", padding: "0.15rem 0.45rem", borderRadius: "3px", background: "#fef3c7", color: "#92400e", fontWeight: 700, border: "1px solid #231f1d" }}>Wispr Flow</span>
+            <span style={{ fontSize: "0.65rem", padding: "0.15rem 0.45rem", borderRadius: "3px", background: "#fef3c7", color: "#92400e", fontWeight: 700, border: "1px solid #231f1d" }}>Voice Flow</span>
             <span style={{ fontSize: "0.65rem", padding: "0.15rem 0.45rem", borderRadius: "3px", background: "#ede9fe", color: "#5b21b6", fontWeight: 800, border: "1px solid #231f1d" }}>AI Basics Hackathon</span>
           </div>
           <div style={{ color: "#b45309", fontSize: "0.75rem", fontWeight: 700, marginBottom: "0.4rem" }}>

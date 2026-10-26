@@ -4,12 +4,12 @@
  * Architecture inspired by:
  * - **Bolna**: Plug-and-play STT → LLM → TTS pipeline with mid-call language switching
  * - **Sarvam AI (Saaras/Bulbul)**: 22 Indian language STT/TTS, auto-detect, code-mixing
- * - **Wispr Flow (Canto)**: Intelligent cleanup — filler removal, self-correction, auto-punctuation
+ * - **Voice Flow (Canto)**: Intelligent cleanup — filler removal, self-correction, auto-punctuation
  *
  * This engine orchestrates:
  * 1. Browser Web Speech API as primary STT (fallback for all supported locales)
  * 2. Sarvam Saaras-style auto language detection
- * 3. Wispr Flow-style transcript cleanup (filler removal, self-correction)
+ * 3. Voice-flow-style transcript cleanup (filler removal, self-correction)
  * 4. Bolna-style orchestration pipeline
  * 5. Web Speech Synthesis API for TTS with language-appropriate voices
  */
@@ -63,7 +63,7 @@ export const PRIMARY_LANGUAGES = INDIAN_LANGUAGES.filter(
   (l) => ["en-IN","ta-IN","hi-IN","te-IN","kn-IN","ml-IN","bn-IN","mr-IN","gu-IN","pa-IN","or-IN","ur-IN","ta-Latn-IN","hi-Latn-IN"].includes(l.code)
 );
 
-// ─── Wispr Flow-style Transcript Cleanup & Legal Grounding ─────────────────
+// ─── Voice-flow-style Transcript Cleanup & Legal Grounding ─────────────────
 // Removes fillers, handles self-corrections, normalizes statutory terms
 
 const FILLER_PATTERNS = [
@@ -75,7 +75,7 @@ const FILLER_PATTERNS = [
   /\b(মানে|আচ্ছা|তো)\b/gi,                         // Bengali fillers
 ];
 
-// Wispr Flow context-aware statutory entity normalization
+// Voice Flow context-aware statutory entity normalization
 const STATUTORY_TERM_NORMALIZATIONS: Array<[RegExp, string]> = [
   [/\b(irdai|irda)\b/gi, "IRDAI"],
   [/\b(rera)\b/gi, "RERA"],
@@ -105,7 +105,7 @@ export function cleanTranscript(raw: string): string {
     cleaned = cleaned.replace(pattern, "");
   }
 
-  // 3. Wispr Flow statutory entity normalization
+  // 3. Voice Flow statutory entity normalization
   for (const [pattern, replacement] of STATUTORY_TERM_NORMALIZATIONS) {
     cleaned = cleaned.replace(pattern, replacement);
   }

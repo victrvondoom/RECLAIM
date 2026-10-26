@@ -2,7 +2,7 @@
 Inspired by and compatible with:
 1. Sarvam AI (Saaras ASR & Bulbul TTS) - specialized Indic acoustic models and code-mixing (Tanglish/Hinglish)
 2. Bolna AI - orchestrating ASR -> LLM -> TTS pipelines with VAD and low-latency turn-taking
-3. Wispr Flow - context-aware token normalization, punctuation, and legal vocabulary grounding
+3. Voice Flow - context-aware token normalization, punctuation, and legal vocabulary grounding
 
 Supports 30 Indian Languages & Dialects (all 22 Eighth Schedule languages + English + popular variants).
 """
@@ -309,7 +309,7 @@ class MultilingualVoiceService:
     """Enterprise-grade Indic voice processing orchestrator integrating:
     - Sarvam Saaras (Indic ASR) & Bulbul (Indic TTS)
     - Bolna AI (turn-taking, VAD, full-duplex voice agent loop)
-    - Wispr Flow (contextual formatting & statutory legal term grounding)
+    - Voice Flow (contextual formatting & statutory legal term grounding)
     """
 
     def __init__(self) -> None:
@@ -381,7 +381,7 @@ class MultilingualVoiceService:
     ) -> dict[str, Any]:
         """Transcribe speech in any Indian language.
         Combines Sarvam Saaras API (if key present), Gemini multimodal audio,
-        or Wispr-style contextual normalization.
+        or Voice-style contextual normalization.
         """
         detected_lang = language_code if language_code != "auto" else "en-IN"
 
@@ -401,7 +401,7 @@ class MultilingualVoiceService:
                         sarvam_result = resp.json()
                         transcript = sarvam_result.get("transcript", "")
                         detected_lang = sarvam_result.get("language_code", detected_lang)
-                        normalized = await self._normalize_wispr_style(transcript, detected_lang)
+                        normalized = await self._normalize_voice_style(transcript, detected_lang)
                         return {
                             "text": normalized,
                             "raw_transcript": transcript,
@@ -424,7 +424,7 @@ class MultilingualVoiceService:
                     "data": audio_bytes,
                 }
                 system_prompt = (
-                    "You are the Indic Speech-To-Text Engine (Wispr Flow + Sarvam Saaras architecture). "
+                    "You are the Indic Speech-To-Text Engine (Voice Flow + Sarvam Saaras architecture). "
                     "Transcribe the given speech with ultra-high fidelity in its native script or language "
                     "(e.g. Tamil script for Tamil, Devanagari for Hindi, Latin for Tanglish/English). "
                     "Preserve statutory legal and consumer dispute terms like IRDAI, RERA, DGCA, UPI, TAT, refunds, claims. "
@@ -454,12 +454,12 @@ class MultilingualVoiceService:
             "text": mock_transcript,
             "raw_transcript": mock_transcript,
             "language_code": language_code if language_code != "auto" else "en-IN",
-            "model": "wispr-indic-conformer-local",
+            "model": "voice-indic-conformer-local",
             "confidence": 0.92,
         }
 
-    async def _normalize_wispr_style(self, text: str, language_code: str) -> str:
-        """Wispr-style contextual formatting: expands abbreviations, fixes punctuation,
+    async def _normalize_voice_style(self, text: str, language_code: str) -> str:
+        """Voice-style contextual formatting: expands abbreviations, fixes punctuation,
         and standardizes statutory consumer terms."""
         if not text:
             return ""

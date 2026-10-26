@@ -76,7 +76,7 @@ export default function Nav() {
                 letterSpacing: "0.04em",
               }}
             >
-              Wispr Flow
+              Voice Flow
             </span>
             <span
               style={{

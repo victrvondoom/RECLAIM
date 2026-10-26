@@ -37,7 +37,7 @@ export default function ProblemSection() {
         </h2>
         <p style={{ fontSize: "0.95rem", lineHeight: 1.7, color: "#575147" }}>
           Traditional portals trap aggrieved consumers in rigid dropdowns, opaque terminology, and endless delays.
-          With RESOLVE and Wispr Flow, you simply speak or whisper what happened in your own words. Our platform
+          With RESOLVE and Voice Flow, you simply speak or whisper what happened in your own words. Our platform
           cleanses speech fillers, identifies regulatory violations across 8 domains, and generates ironclad statutory filings automatically.
         </p>
       </motion.div>

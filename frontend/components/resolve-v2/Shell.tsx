@@ -101,12 +101,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           className="mt-5 block rounded-lg border-2 border-[#231f1d] bg-white p-3.5 shadow-[3px_3px_0_#231f1d] transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0_#231f1d]"
         >
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[10px] font-black uppercase tracking-wider text-amber-700">[ ◈ WISPR &amp; SOLVE ]</span>
+            <span className="font-mono text-[10px] font-black uppercase tracking-wider text-amber-700">[ ◈ VOICE &amp; SOLVE ]</span>
             <ArrowUpRight className="size-3.5 text-stone-700" />
           </div>
           <p className="mt-1 font-serif text-sm font-bold text-[#1c1917]">Whisper &amp; solve dispute</p>
           <p className="mt-1 font-serif italic text-xs leading-relaxed text-stone-600">
-            Wispr Flow voice intake &middot; parallel multi-agent reasoning across 8 domains.
+            Voice Flow voice intake &middot; parallel multi-agent reasoning across 8 domains.
           </p>
         </Link>
 

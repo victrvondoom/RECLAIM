@@ -202,7 +202,7 @@ function LanguageSelector({
   );
 }
 
-// ─── Voice Transcript Display ── Wispr Flow-style with cleanup ──────────
+// ─── Voice Transcript Display ── Voice-flow-style with cleanup ──────────
 
 function TranscriptDisplay({
   raw,
@@ -472,7 +472,7 @@ export function VoiceAssistant({ onTranscript, onSpeakResponse, compact = false 
       {/* Model credits */}
       <div className="w-full flex flex-wrap items-center justify-center gap-1 pt-2 border-t border-stone-200">
         <span className="text-[9px] text-stone-400 font-mono">Powered by:</span>
-        {["Sarvam Saaras", "Bulbul TTS", "Wispr Canto", "Bolna Pipeline"].map((name) => (
+        {["Sarvam Saaras", "Bulbul TTS", "Voice Canto", "Bolna Pipeline"].map((name) => (
           <span key={name} className="rounded border border-stone-300 bg-white px-1.5 py-0.5 text-[8px] font-mono font-bold text-stone-500 shadow-[1px_1px_0_#d6d3d1]">
             {name}
           </span>

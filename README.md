@@ -57,7 +57,7 @@ RECLAIM fixes both sides of that asymmetry: it gives the consumer an autonomous 
 
 ## How Reclaim Works — End to End
 
-1. **Intake** — You speak, whisper, or type in 22+ languages. Wispr Flow cleans fillers, normalizes statutory terms, and hands structured claim telemetry to the backend. Optionally attach evidence (policies, rejection letters, invoices, bank statements).
+1. **Intake** — You speak, whisper, or type in 22+ languages. Voice Flow cleans fillers, normalizes statutory terms, and hands structured claim telemetry to the backend. Optionally attach evidence (policies, rejection letters, invoices, bank statements).
 2. **Routing** — A multilingual Domain Router classifies the case across 8 domains **in parallel** — a cancelled flight plus a refused travel-insurance claim runs both pipelines concurrently and merges into one unified brief.
 3. **Research** — The Retrieval Agent pulls exact regulatory clauses from indexed vector corpora — never from model weights alone — while the Knowledge Graph Agent queries cross-citizen dispute patterns and the Web Search Agent fills evidence gaps.
 4. **Evidence** — Multi-modal OCR extracts facts from uploads, scores relevance, and flags documents that fail to support the claim.
@@ -73,7 +73,7 @@ Every subsystem — voice, documents, retrieval, graph intelligence, and generat
 flowchart TB
     subgraph Client["🖥️ Client Layer"]
         UI["Next.js 15 · React 19<br/>Dashboard · 3D Knowledge Graph · Document Vault"]
-        Voice["🎙️ Wispr Flow Voice Engine<br/>Transcript Cleanup · Entity Normalization"]
+        Voice["🎙️ Voice Flow Voice Engine<br/>Transcript Cleanup · Entity Normalization"]
         Voice --> UI
     end
 
@@ -130,7 +130,7 @@ flowchart TB
 
 **Flow relationships, stated plainly:**
 
-- **Client → Hub**: the UI and Wispr Flow voice engine are the only entry points; all traffic lands on the FastAPI hub, which owns case state, routing, and the audit log.
+- **Client → Hub**: the UI and Voice Flow voice engine are the only entry points; all traffic lands on the FastAPI hub, which owns case state, routing, and the audit log.
 - **Hub → Agents**: the LangGraph orchestrator is the single state machine every agent runs inside — there is no second pipeline.
 - **Agents → Data**: Retrieval reads Qdrant, the Knowledge Graph Agent reads/writes Neo4j, the Evidence and Negotiation Agents read/write the Document Vault, and Redis caches hub responses across all of them.
 - **Agents → LLM**: every agent's planning, drafting, and reviewing pass runs on the Claude Opus 5.5 API — one reasoning core shared by the entire workflow, which is what keeps outputs consistent and centrally verifiable.
@@ -190,7 +190,7 @@ Every pass is preserved in `review_history`, an immutable reasoning trail of wha
 
 **Reasoning Core** — Claude Opus 5.5 API (Anthropic) powering all agent planning, drafting, review, and citation verification
 
-**Voice & Speech** — Wispr Flow conformer architecture · Web Speech audio streaming · contextual legal entity grounding
+**Voice & Speech** — Voice Flow conformer architecture · Web Speech audio streaming · contextual legal entity grounding
 
 **Frontend** — Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS · @react-three/fiber + drei (3D WebGL scenes) · TanStack Query · Zustand
 
@@ -247,12 +247,12 @@ CONSUMER/
 │   │   ├── api/routes/      # FastAPI route handlers (cases, chat, documents, voice, ws)
 │   │   ├── knowledge_graph/ # Neo4j + JSONL-fallback graph stores
 │   │   ├── rag/             # Chunking, embedding, retrieval (Qdrant + JSONL fallback)
-│   │   ├── services/        # Storage, OCR, voice engine (Wispr Flow), citation verification, cache
+│   │   ├── services/        # Storage, OCR, voice engine (Voice Flow), citation verification, cache
 │   │   └── prompts/          # Per-domain prompt templates
 │   └── datasets/            # Pre-indexed regulatory data (Git LFS)
 └── frontend/
     ├── app/dashboard/        # Dashboard, Assistant, Documents, Analyses, Knowledge Graph, Institution Radar
-    ├── components/           # Chat, Wispr Flow voice studio, documents, landing UI
+    ├── components/           # Chat, Voice Flow voice studio, documents, landing UI
     └── features/knowledge-graph/  # Self-contained 3D graph feature
 ```
 

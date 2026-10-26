@@ -150,7 +150,7 @@ function VoiceEngineSection() {
 
         <div className="rounded-lg border-2 border-[#231f1d] bg-[#fcfaf5] p-3 shadow-[2px_2px_0_#231f1d]">
           <div className="flex items-center gap-2 text-stone-900 font-bold text-xs mb-1">
-            <Sparkles className="size-3.5 text-purple-700" /> Wispr Flow Engine
+            <Sparkles className="size-3.5 text-purple-700" /> Voice Flow Engine
           </div>
           <p className="text-[11px] leading-4 text-stone-600">
             Filler word removal, spontaneous speech self-correction, auto-punctuation, and statutory entity normalization (IRDAI, RERA, DGCA).
@@ -285,7 +285,7 @@ function SystemDiagnostics() {
           color="#15803d"
           Icon={Mic}
         >
-          <p className="font-mono text-xs font-bold text-stone-800">Sarvam + Bolna + Wispr</p>
+          <p className="font-mono text-xs font-bold text-stone-800">Sarvam + Bolna + Voice</p>
           <p className="font-mono text-[10px] text-stone-500">30 languages &middot; WebSpeech/TTS</p>
         </DiagnosticCard>
       </div>

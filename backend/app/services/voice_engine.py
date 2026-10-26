@@ -4,7 +4,7 @@ Voice Engine Service — Multilingual speech processing backend.
 Architecture inherited from:
 - **Bolna**: Plug-and-play STT → LLM → TTS pipeline orchestration
 - **Sarvam AI (Saaras/Bulbul)**: 22 Indian language STT/TTS with auto-detection
-- **Wispr Flow (Canto)**: Transcript cleanup — filler removal, self-correction
+- **Voice Flow (Canto)**: Transcript cleanup — filler removal, self-correction
 
 This service provides:
 1. Language detection from text input
@@ -99,7 +99,7 @@ def detect_language(text: str) -> dict:
 
 def clean_transcript(raw: str) -> str:
     """
-    Wispr Flow Canto-style transcript cleanup:
+    Voice Flow Canto-style transcript cleanup:
     1. Remove filler words
     2. Handle self-corrections
     3. Clean up whitespace

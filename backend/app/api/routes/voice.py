@@ -37,7 +37,7 @@ async def transcribe_speech(
     prompt_hint: str | None = Form(default=None),
     user: CurrentUser = Depends(get_current_user),
 ) -> dict[str, Any]:
-    """Multi-model speech-to-text transcription engine (Sarvam Saaras + Wispr Flow conformer).
+    """Multi-model speech-to-text transcription engine (Sarvam Saaras + Voice Flow conformer).
     Automatically identifies language, handles code-mixing (Tanglish/Hinglish), and normalizes
     consumer legal terminology."""
     audio_content = await file.read()

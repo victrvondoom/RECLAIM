@@ -31,7 +31,7 @@ export default function FinalCTA() {
             fontWeight: 800,
           }}
         >
-          WISPR FLOW &middot; VOICE TO JUSTICE
+          VOICE FLOW &middot; VOICE TO JUSTICE
         </p>
         <h2
           style={{
@@ -43,7 +43,7 @@ export default function FinalCTA() {
             color: "#1a1715",
           }}
         >
-          Whisper and solve using Wispr Flow.
+          Whisper and solve using Voice Flow.
         </h2>
         <p style={{ fontSize: "1.05rem", lineHeight: 1.6, color: "#575147", opacity: 0.9, marginBottom: "2rem" }}>
           Turn spoken consumer complaints into legally grounded claim files, evidence packages, and official appeals in seconds.
