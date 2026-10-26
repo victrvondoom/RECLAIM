@@ -1,8 +1,8 @@
-# RESOLVE
+# RECLAIM
 
 **A multi-agent consumer advocacy system that turns a rejected claim into a grounded, citable, ready-to-send dispute — across eight consumer domains.**
 
-RESOLVE helps a consumer who has been denied a claim (an insurance rejection, a cancelled flight, a hidden bank charge) understand whether the denial was lawful and produce the actual documents needed to fight it. Instead of a generic chatbot answer, the system runs a full agentic workflow: it retrieves the exact regulatory clauses that apply, extracts the facts from the consumer's own documents, drafts the appeal or complaint, audits its own draft for hallucinated citations, and only then delivers the result.
+RECLAIM helps a consumer who has been denied a claim (an insurance rejection, a cancelled flight, a hidden bank charge) understand whether the denial was lawful and produce the actual documents needed to fight it. Instead of a generic chatbot answer, the system runs a full agentic workflow: it retrieves the exact regulatory clauses that apply, extracts the facts from the consumer's own documents, drafts the appeal or complaint, audits its own draft for hallucinated citations, and only then delivers the result.
 
 The system currently operates in two modes:
 
@@ -13,7 +13,7 @@ The system currently operates in two modes:
 
 ## Table of Contents
 
-- Why RESOLVE Exists
+- Why RECLAIM Exists
 - System Architecture
 - The Agentic Workflow
 - The Self-Correction Loop
@@ -26,11 +26,11 @@ The system currently operates in two modes:
 
 ---
 
-## Why RESOLVE Exists
+## Why RECLAIM Exists
 
 When a consumer dispute goes wrong, the problem is almost never the law — it is asymmetry. The institution has issued the same boilerplate rejection hundreds of times and knows exactly which regulation it can safely hide behind. The consumer has never read that regulation, does not know which authority supervises the institution, and has one attempt to get the wording right.
 
-RESOLVE attacks the asymmetry from both sides:
+RECLAIM attacks the asymmetry from both sides:
 
 - **Consumer side** — every claim is analyzed against the real regulatory corpus (indexed statutes, circulars, and guidelines), and every draft the system produces carries verifiable citations back to those sources.
 - **Pattern side** — resolved cases are recorded in a knowledge graph, so recurring dispute patterns against the same institution become visible across citizens rather than only within one case.
@@ -330,6 +330,6 @@ All variables are optional; every backend falls back to a local implementation w
 
 <div align="center">
 
-**RESOLVE — one workflow, verified citations, no unbacked claims.**
+**RECLAIM — one workflow, verified citations, no unbacked claims.**
 
 </div>
